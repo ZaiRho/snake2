@@ -17,10 +17,10 @@ food = Food()
 scoreboard = Scoreboard()
 
 screen.listen()
-screen.onkey(snake.up,"w")
-screen.onkey(snake.down,"s")
-screen.onkey(snake.right,"d")
-screen.onkey(snake.left,"a")
+screen.onkey(snake.up, "w")
+screen.onkey(snake.down, "s")
+screen.onkey(snake.right, "d")
+screen.onkey(snake.left, "a")
 
 while not game_over:
     screen.update()
@@ -30,6 +30,14 @@ while not game_over:
     if snake.head.distance(food) < 15:
         food.refresh()
         scoreboard.add_score()
+        snake.extend()
+    if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
+        game_over = True
+        scoreboard.game_over()
 
+    for segment in snake.segments[1:]:
+        if snake.head.distance(segment) < 10:
+            game_over = True
+            scoreboard.game_over()
 
 screen.exitonclick()
